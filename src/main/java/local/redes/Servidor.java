@@ -11,8 +11,37 @@ import java.net.Socket;
 
 public class Servidor {
 
-    private static boolean isCPFValid(String cpf){
-        return false;
+    private static boolean isCPFValid(String cpf) {
+        if (cpf.equals("00000000000") || cpf.length() != 11) return false;
+
+        var nineDigits = cpf.substring(0, 9);
+        var tenDigits = "";
+
+        var firstCalc = 0;
+        var secondCalc = 0;
+
+        var firstDigit = -1;
+        var secondDigit = -1;
+
+        for (int i = 10; i > 1; i--) {
+            var result = Character.getNumericValue(nineDigits.charAt(i - 2)) * i;
+            firstCalc += result;
+        }
+
+        firstDigit = firstCalc / 11 < 2 ? 0 : 11 - (firstCalc % 11);
+
+        tenDigits = firstDigit + nineDigits;
+
+        for (int i = 11; i > 1; i--) {
+            var result = Character.getNumericValue(tenDigits.charAt(i - 2)) * i;
+            secondCalc += result;
+        }
+
+        secondDigit = secondCalc / 11 < 2 ? 0 : 11 - (secondCalc % 11);
+
+        var foundCpf = nineDigits  + secondDigit + firstDigit;
+        return foundCpf.equals(cpf) ? true : false;
+
     }
 
     public static void main(String[] args) throws IOException {
