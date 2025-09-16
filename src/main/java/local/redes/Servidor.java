@@ -14,34 +14,33 @@ public class Servidor {
     private static boolean isCPFValid(String cpf) {
         if (cpf.equals("00000000000") || cpf.length() != 11) return false;
 
-        var nineDigits = cpf.substring(0, 9);
-        var tenDigits = "";
+        String nineDigits = cpf.substring(0, 9);
+        String tenDigits = "";
 
-        var firstCalc = 0;
-        var secondCalc = 0;
+        int firstCalc = 0;
+        int secondCalc = 0;
 
-        var firstDigit = -1;
-        var secondDigit = -1;
+        int firstDigit = -1;
+        int secondDigit = -1;
 
         for (int i = 10; i > 1; i--) {
-            var result = Character.getNumericValue(nineDigits.charAt(i - 2)) * i;
+            int result = Character.getNumericValue(nineDigits.charAt(10 - i)) * i;
             firstCalc += result;
         }
 
         firstDigit = firstCalc % 11 < 2 ? 0 : 11 - (firstCalc % 11);
 
-        tenDigits = firstDigit + nineDigits;
+        tenDigits = nineDigits + firstDigit;
 
         for (int i = 11; i > 1; i--) {
-            var result = Character.getNumericValue(tenDigits.charAt(i - 2)) * i;
+            int result = Character.getNumericValue(tenDigits.charAt(11 - i)) * i;
             secondCalc += result;
         }
 
         secondDigit = secondCalc % 11 < 2 ? 0 : 11 - (secondCalc % 11);
 
-        var foundCpf = nineDigits + firstDigit + secondDigit;
-        return foundCpf.equals(cpf) ? true : false;
-
+        String foundCpf = nineDigits + firstDigit + secondDigit;
+        return foundCpf.equals(cpf);
     }
 
     public static void main(String[] args) throws IOException {
