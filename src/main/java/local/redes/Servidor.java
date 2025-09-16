@@ -28,7 +28,7 @@ public class Servidor {
             firstCalc += result;
         }
 
-        firstDigit = firstCalc / 11 < 2 ? 0 : 11 - (firstCalc % 11);
+        firstDigit = firstCalc % 11 < 2 ? 0 : 11 - (firstCalc % 11);
 
         tenDigits = firstDigit + nineDigits;
 
@@ -37,9 +37,9 @@ public class Servidor {
             secondCalc += result;
         }
 
-        secondDigit = secondCalc / 11 < 2 ? 0 : 11 - (secondCalc % 11);
+        secondDigit = secondCalc % 11 < 2 ? 0 : 11 - (secondCalc % 11);
 
-        var foundCpf = nineDigits  + secondDigit + firstDigit;
+        var foundCpf = nineDigits + firstDigit + secondDigit;
         return foundCpf.equals(cpf) ? true : false;
 
     }
